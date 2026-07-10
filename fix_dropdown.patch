@@ -1,0 +1,11 @@
+--- /var/www/html/carnetizacion-new/control_acceso_frontend/resources/views/recepcion/dashboard.blade.php
++++ /var/www/html/carnetizacion-new/control_acceso_frontend/resources/views/recepcion/dashboard.blade.php
+@@ -108,7 +108,7 @@
+                     <div class="col-md-3 mb-3">
+                         <label for="filtro_piso" class="form-label">Piso</label>
+                         <select class="form-control" id="filtro_piso" name="piso">
+-                            <option value="" disabled>Todos los pisos</option>
++                            <option value="">Todos los pisos</option>
+                             @php
+                                 $pisos = ["PB","MZ1","MZ2", "MZ3","PB-JC","MZ1-JC","MZ2-JC", "MZ3-JC","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"];
+                             @endphp

@@ -1,0 +1,16 @@
+
+> dev
+> vite
+
+Port 5173 is in use, trying another one...
+
+  VITE v5.4.21  ready in 123 ms
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+
+  LARAVEL 10.50.2  plugin v1.3.0
+
+  ➜  APP_URL: http://localhost:3000
+2:50:24 p. m. [vite] page reload vendor/dompdf/dompdf/lib/fonts/mustRead.html

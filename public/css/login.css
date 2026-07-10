@@ -1,0 +1,151 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-image: url("FONDO_login.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background-image: linear-gradient(to bottom, white, blue); */
+}
+
+.login_container h2 {
+  text-align: center;
+  font-size: 50px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.logo_mincyt {
+  margin-top: 70px;
+}
+
+.g-recaptcha-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+#mensaje {
+  width: 100%;
+  font-size: 14px;
+}
+
+.login_container span {
+  text-align: center;
+  font-size: 50px;
+  font-weight: 100;
+}
+
+.login_inputs {
+  width: 20%;
+  background-color: white;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.input-field {
+  padding: 14px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.input-label {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 16px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  background: #fff;
+  padding: 0 4px;
+}
+
+.login_container,
+.login_inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login_inputs {
+  padding: 20px;
+  box-shadow: 5px 5px 12px gray;
+  border-radius: 10px;
+}
+
+.login_inputs p {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.login-message {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.login-message--error {
+  background-color: #fdecea;
+  border: 1px solid #f5c2c7;
+  color: #a12828;
+}
+
+.login-message--success {
+  background-color: #d1e7dd;
+  border: 1px solid #badbcc;
+  color: #0f5132;
+}
+
+.input-field:focus+.input-label,
+.input-field:not(:placeholder-shown)+.input-label {
+  top: 0;
+  font-size: 12px;
+  color: #007bff;
+  font-weight: 500;
+}
+
+.login_inputs .login_button {
+  background-color: blue;
+  font-size: 15px;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  padding: 6px;
+  color: white;
+  margin-top: 10px;
+}
+
+.logo_mincyt {
+  width: 300px;
+}
