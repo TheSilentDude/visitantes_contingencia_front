@@ -38,7 +38,7 @@ class RecepcionDashboardController extends Controller
         // Pedir dashboard data al backend
         $response = Http::withToken($this->token())
             ->timeout(30)
-            ->get($this->api() . '/api/admin/recepcion/dashboard', $filtros);
+            ->get($this->api() . '/api/recepcion/dashboard', $filtros);
 
         $data            = $response->ok() ? $response->json() : [];
         $visitantesArray = $data['visitantes'] ?? [];
@@ -52,7 +52,7 @@ class RecepcionDashboardController extends Controller
         if ($canViewList && !session()->has('stuck_visitors_checked')) {
             $stuckResp = Http::withToken($this->token())
                 ->timeout(15)
-                ->get($this->api() . '/api/admin/recepcion/visitantes-pegados');
+                ->get($this->api() . '/api/recepcion/visitantes-pegados');
 
             if ($stuckResp->ok()) {
                 $stuckArray = $stuckResp->json('data', []);

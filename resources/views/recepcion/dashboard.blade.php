@@ -134,7 +134,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">
                 <i class="fas fa-users me-2"></i>
-                {{ request('estado') == 'todos' ? 'Registro de Visitantes' : 'Visitantes Activos en la Torre' }}
+                {{ request('estado') == 'todos' ? 'Registro de Visitantes' : 'Visitantes Activos en la Locación' }}
                 <span class="badge badge-primary ml-2">{{ count($visitantes) }}</span>
             </h6>
         </div>

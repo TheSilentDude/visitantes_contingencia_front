@@ -450,7 +450,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const notif = document.getElementById('notifVisitante');
         notif.innerHTML = '<div class="alert alert-info"><i class="fas fa-spinner fa-spin me-2"></i>Consultando datos en SAIME...</div>';
 
-        fetch(`/proxy/buscar-cedula?cedula=${encodeURIComponent(cedula)}`)
+        fetch(`/proxy/buscar-cedula?cedula=${encodeURIComponent(cedula)}&_t=${Date.now()}`, {
+            credentials: 'same-origin',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
