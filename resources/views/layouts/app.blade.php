@@ -203,88 +203,8 @@
 
                         <div class="dropdown-menu shadow animated--grow-in" aria-labelledby="moduloDropdown" style="width: 380px; left: 0;">
 
-                            {{-- ========== ADMINISTRACIÓN ========== --}}
-                            @if(in_array('acceso_total', $userPerms) || in_array('ver_dashboard', $userPerms) || in_array('gestionar_roles', $userPerms) || in_array('estructura_logos', $userPerms))
-                            <h6 class="dropdown-header text-success font-weight-bold"><i class="fas fa-cogs mr-1"></i> Administración</h6>
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('ver_dashboard', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('admin.dashboard') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-success" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-tachometer-alt fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span>Ver Dashboard</span>
-                            </a>
-                            @endif
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('gestionar_roles', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('admin.roles.index') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-success" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-user-shield fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span>Gestionar Roles</span>
-                            </a>
-                            @endif
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('estructura_logos', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('admin.instituciones.logos.index') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-success" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-building fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span>Estructura/Logos</span>
-                            </a>
-                            @endif
-
-                            <div class="dropdown-divider"></div>
-                            @endif
-
-                            {{-- ========== RRHH / USUARIOS ========== --}}
-                            @if(in_array('acceso_total', $userPerms) || in_array('ver_usuarios', $userPerms) || in_array('crear_personal', $userPerms) || in_array('generar_carnets', $userPerms))
-                            <h6 class="dropdown-header text-primary font-weight-bold"><i class="fas fa-users mr-1"></i> RRHH / Usuarios</h6>
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('ver_usuarios', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('rrhh.dashboard') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-primary" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-eye fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span>Ver Usuarios</span>
-                            </a>
-                            @endif
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('crear_personal', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('rrhh.usuarios.create') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-primary" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-user-plus fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span>Crear Personal</span>
-                            </a>
-                            @endif
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('generar_carnets', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('rrhh.carnets.index') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-primary" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-id-card fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span>Generar Carnets</span>
-                            </a>
-                            @endif
-
-                            <div class="dropdown-divider"></div>
-                            @endif
-
                             {{-- ========== OPERATIVO ========== --}}
-                            @if(in_array('acceso_total', $userPerms) || in_array('recepcion', $userPerms) || in_array('carnet_visitante', $userPerms) || in_array('rotacion', $userPerms) || in_array('imp_reversos', $userPerms))
+                            @if(in_array('acceso_total', $userPerms) || in_array('recepcion', $userPerms) || in_array('carnet_visitante', $userPerms))
                             <h6 class="dropdown-header text-info font-weight-bold"><i class="fas fa-clipboard-list mr-1"></i> Operativo</h6>
 
                             @if(in_array('acceso_total', $userPerms) || in_array('recepcion', $userPerms))
@@ -308,95 +228,12 @@
                                 <span>Carnet Visitante</span>
                             </a>
                             @endif
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('rotacion', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('rotacion.index') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-info" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-sync-alt fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span>Rotación</span>
-                            </a>
-                            @endif
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('imp_reversos', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('impresiones_reversa.dashboard') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-info" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-print fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span>Imp. Reversos</span>
-                            </a>
-                            @endif
-
-                            @endif
-
-                            {{-- ========== VEHÍCULOS ========== --}}
-                            @if(in_array('acceso_total', $userPerms) || in_array('registro_vehiculos', $userPerms) || in_array('asignar_puestos', $userPerms))
-                            <div class="dropdown-divider"></div>
-                            <h6 class="dropdown-header text-warning font-weight-bold"><i class="fas fa-car mr-1"></i> Vehículos</h6>
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('registro_vehiculos', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('vehiculos.registro') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-warning" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-plus-circle fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span>Registrar Vehículo</span>
-                            </a>
-                            @endif
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('asignar_puestos', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('admin.puestos.index') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-warning" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-parking fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span>Asignar Puestos</span>
-                            </a>
-                            @endif
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('monitorear_accesos_vehiculares', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('vehiculos.accesos') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-success" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-video fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span class="text-success font-weight-bold">Accesos en Vivo</span>
-                            </a>
-                            
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('vehiculos.accesos_entes') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-secondary" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-history fa-sm text-secondary"></i>
-                                    </div>
-                                </div>
-                                <span>Historial de Entes</span>
-                            </a>
-                            @endif
-
-                            @if(in_array('acceso_total', $userPerms) || in_array('asignar_cupos', $userPerms))
-                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('admin.cupos.index') }}">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-white shadow-sm text-warning" style="width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-list-ol fa-sm"></i>
-                                    </div>
-                                </div>
-                                <span>Asignar Cupos</span>
-                            </a>
-                            @endif
                             @endif
 
                             {{-- Si no tiene ningún permiso --}}
                             @if(empty($userPerms))
                             <span class="dropdown-item text-muted small">Sin módulos asignados</span>
                             @endif
-
                         </div>
                     </div>
 

@@ -31,15 +31,21 @@
                     {{ session('error') }}
                 </div>
             @endif
-            
-            <!-- ReCAPTCHA Widget -->
-       <div class="g-recaptcha" data-sitekey="{{ config('recaptcha.site_key') }}"></div>
-@error('g-recaptcha-response')
-    <div class="invalid-feedback d-block">
-        {{ $message }}
-    </div>
-@enderror
 
+            @if(session('debug_response') || session('debug_exception'))
+                <script>
+                    console.error("====== DEBUG LOGIN BACKEND ======");
+                    console.error("URL Backend:", {!! json_encode(session('debug_url')) !!});
+                    @if(session('debug_status'))
+                        console.error("HTTP Status:", {{ session('debug_status') }});
+                        console.error("Response Body:", {!! json_encode(session('debug_response')) !!});
+                    @endif
+                    @if(session('debug_exception'))
+                        console.error("Exception:", {!! json_encode(session('debug_exception')) !!});
+                    @endif
+                    console.error("=================================");
+                </script>
+            @endif
 
             <button class="login_button" type="submit" id="loginButton">Entrar</button>
             <div style="text-align: center; margin-top: 15px;">
@@ -51,25 +57,5 @@
     </div>
 </form>
 
-<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
-
-<script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        const captcha = document.querySelector('[name="g-recaptcha-response"]');
-        if (!captcha || !captcha.value) {
-            e.preventDefault();
-            const mensajeDiv = document.getElementById('mensaje');
-            mensajeDiv.style.display = 'block';
-            mensajeDiv.style.backgroundColor = '#f8d7da';
-            mensajeDiv.style.color = '#721c24';
-            mensajeDiv.style.border = '1px solid #f5c6cb';
-            mensajeDiv.style.padding = '10px';
-            mensajeDiv.style.marginTop = '10px';
-            mensajeDiv.style.borderRadius = '6px';
-            mensajeDiv.innerHTML = '<strong>Error:</strong> Debes completar el captcha.';
-            return;
-        }
-    });
-</script>
 
 @endsection

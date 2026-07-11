@@ -27,30 +27,32 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $rules = [
+        $credentials = $request->validate([
             'usuario' => ['required', 'string'],
             'clave'   => ['required', 'string'],
-        ];
-
-        if (!app()->isLocal()) {
-            $rules['g-recaptcha-response'] = ['required', 'recaptcha'];
-        }
-
-        $credentials = $request->validate($rules, [
-            'g-recaptcha-response.required' => 'Por favor complete el captcha.',
-            'g-recaptcha-response.recaptcha' => 'La verificación de captcha ha fallado. Por favor, inténtelo de nuevo.',
         ]);
 
-        $response = Http::timeout(config('services.backend.timeout', 30))
-            ->post($this->backendUrl() . '/api/login', [
-                'usuario' => $credentials['usuario'],
-                'clave'   => $credentials['clave'],
-            ]);
+        try {
+            $response = Http::acceptJson()->timeout(config('services.backend.timeout', 30))
+                ->post($this->backendUrl() . '/api/login', [
+                    'usuario' => $credentials['usuario'],
+                    'clave'   => $credentials['clave'],
+                ]);
 
-        if ($response->failed()) {
+            if ($response->failed()) {
+                return back()->withErrors([
+                    'usuario' => $response->json('message') ?? 'Nombre de usuario o contraseña incorrectos.',
+                ])->with('debug_response', $response->body())
+                  ->with('debug_status', $response->status())
+                  ->with('debug_url', $this->backendUrl() . '/api/login')
+                  ->onlyInput('usuario');
+            }
+        } catch (\Exception $e) {
             return back()->withErrors([
-                'usuario' => $response->json('message') ?? 'Nombre de usuario o contraseña incorrectos.',
-            ])->onlyInput('usuario');
+                'usuario' => 'Error de conexión con el backend.',
+            ])->with('debug_exception', $e->getMessage())
+              ->with('debug_url', $this->backendUrl() . '/api/login')
+              ->onlyInput('usuario');
         }
 
         $data = $response->json();

@@ -14,6 +14,8 @@ class ApiController extends Controller
     public function buscarCedula(Request $request)
     {
         $response = Http::withToken($this->token())
+            ->acceptJson()
+            ->withoutRedirecting()
             ->get($this->api() . '/api/buscar-cedula', $request->only(['cedula', 'origen']));
         return response()->json($response->json(), $response->status());
     }

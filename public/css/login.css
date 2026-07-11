@@ -29,11 +29,6 @@ body {
   margin-top: 70px;
 }
 
-.g-recaptcha-container {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
 
 #mensaje {
   width: 100%;

@@ -56,18 +56,13 @@
                             <div class="col-md-6 mb-3">
                                 <label for="cedula" class="form-label">Cédula de Visitante <span class="text-danger">*</span></label>
                                 <div class="input-group">
-                                    <select name="origen" id="origen" class="form-select" style="max-width: 80px;">
-                                        <option value="V" {{ old('origen') == 'V' ? 'selected' : '' }}>V</option>
-                                        <option value="E" {{ old('origen') == 'E' ? 'selected' : '' }}>E</option>
-                                        <option value="P" {{ old('origen') == 'P' ? 'selected' : '' }}>P</option>
-                                    </select>
                                     <input type="text" class="form-control" id="cedula" name="cedula" 
                                            maxlength="10" value="{{ old('cedula') }}" required
                                            placeholder="12345678" 
                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')" 
                                            pattern="[0-9]*" inputmode="numeric">
                                 </div>
-                                <small class="text-muted" style="font-size: 0.75rem;">Seleccione el origen (V=Venezolano, E=Extranjero, P=Pasaporte) y escriba solo los números</small>
+                                <small class="text-muted" style="font-size: 0.75rem;">Escriba solo los números de cédula</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="primerNombre" class="form-label">Primer Nombre *</label>
@@ -102,49 +97,30 @@
                             </div>
                         </div>
 
-                        <!-- Destino y Carnet -->
+                        <!-- Origen y Carnet -->
                         <div class="row">
                             <div class="col-12">
                                 <h5 class="text-primary mb-3 mt-4">
-                                    <i class="fas fa-map-marker-alt me-2"></i>  Destino y Carnet
+                                    <i class="fas fa-map-marker-alt me-2"></i>  Origen y Carnet
                                 </h5>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="piso" class="form-label">Piso *</label>
-                                <select class="form-control" id="piso" name="piso" required>
-                                    <option value="" disabled>Seleccione un piso</option>
-                                    @php
-                                        $pisos = config('rotacion.pisos_permitidos', [
-                                            "PB","MZ1","MZ2", "MZ3","PB-JC","MZ1-JC","MZ2-JC", "MZ3-JC",
-                                            "1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"
-                                        ]);
-                                    @endphp
-                                    @foreach($pisos as $piso)
-                                        <option value="{{ $piso }}" {{ old('piso') == $piso ? 'selected' : '' }}>
-                                            {{ $piso }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <label for="institucion_de_origen" class="form-label">Institución de Origen</label>
+                                <input type="text" class="form-control" id="institucion_de_origen" name="institucion_de_origen" 
+                                       value="{{ old('institucion_de_origen') }}" placeholder="Ej: CANTV (Opcional)">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="codigo_carnet" class="form-label">Código de Carnet</label>
-                                <select class="form-control" id="codigo_carnet" name="codigo_carnet" disabled required>
-                                    <option value="" disabled>Seleccione un piso primero</option>
+                                <select class="form-control" id="codigo_carnet" name="codigo_carnet">
+                                    <option value="" disabled selected>Cargando carnets disponibles...</option>
                                 </select>
-                                <small class="text-muted">Se cargarán automáticamente al seleccionar piso</small>
                             </div>
                         </div>
-
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="departamento" class="form-label">Departamento *</label>
-                                <input type="text" class="form-control" id="departamento" name="departamento" 
-                                       value="{{ old('departamento') }}" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <label for="descripcion" class="form-label">Descripción/Motivo de la visita</label>
                                 <input type="text" class="form-control" id="descripcion" name="descripcion" 
                                        value="{{ old('descripcion') }}" placeholder="Ej: Reunión de trabajo">
@@ -188,50 +164,7 @@
                             </div>
                         </div>
 
-                        @if(request('source') != 'recepcion')
-                        <!-- Vehículo -->
-                        <div class="row">
-                            <div class="col-12">
-                                <h5 class="text-primary mb-3 mt-4">
-                                    <i class="fas fa-car me-2"></i>  Vehículo del Visitante
-                                </h5>
-                            </div>
-                        </div>
 
-                        <input type="hidden" id="ingresa_con_vehiculo_hidden" name="ingresa_con_vehiculo" value="1">
-
-                        <div id="vehiculo-container">
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="placa_vehiculo" class="form-label">Placa *</label>
-                                    <input type="text" class="form-control text-uppercase" id="placa_vehiculo" name="placa_vehiculo" value="{{ old('placa_vehiculo') }}" placeholder="ABC-123" required>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="tipo_vehiculo" class="form-label">Tipo *</label>
-                                    <select class="form-control" id="tipo_vehiculo" name="tipo_vehiculo" required>
-                                        <option value="" disabled selected>Seleccione</option>
-                                        <option value="Automovil" {{ old('tipo_vehiculo') == 'Automovil' ? 'selected' : '' }}>Automóvil</option>
-                                        <option value="Motocicleta" {{ old('tipo_vehiculo') == 'Motocicleta' ? 'selected' : '' }}>Motocicleta</option>
-                                        <option value="Camioneta" {{ old('tipo_vehiculo') == 'Camioneta' ? 'selected' : '' }}>Camioneta</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="color_vehiculo" class="form-label">Color *</label>
-                                    <input type="text" class="form-control" id="color_vehiculo" name="color_vehiculo" value="{{ old('color_vehiculo') }}" placeholder="Ej: Rojo" required>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="marca_vehiculo" class="form-label">Marca *</label>
-                                    <input type="text" class="form-control" id="marca_vehiculo" name="marca_vehiculo" value="{{ old('marca_vehiculo') }}" placeholder="Ej: Toyota" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="modelo_vehiculo" class="form-label">Modelo *</label>
-                                    <input type="text" class="form-control" id="modelo_vehiculo" name="modelo_vehiculo" value="{{ old('modelo_vehiculo') }}" placeholder="Ej: Corolla" required>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
 
                         <!-- Equipos -->
                         <div class="row">
@@ -389,6 +322,30 @@ document.addEventListener('DOMContentLoaded', function() {
     primerApellidoInput.addEventListener('input', validarSoloLetras);
     segundoApellidoInput.addEventListener('input', validarSoloLetras);
     
+    // Cargar carnets disponibles
+    fetch('/proxy/carnets-disponibles', {
+        headers: {
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const select = document.getElementById('codigo_carnet');
+        select.innerHTML = '<option value="" selected>Seleccione un carnet (Opcional)</option>';
+        if (data.success && data.data && data.data.length > 0) {
+            data.data.forEach(carnet => {
+                select.innerHTML += `<option value="${carnet.id}">Carnet #${carnet.codigo || carnet.id}</option>`;
+            });
+        } else {
+            select.innerHTML = '<option value="" selected>No hay carnets disponibles</option>';
+        }
+    })
+    .catch(error => {
+        console.error('Error al cargar carnets:', error);
+        document.getElementById('codigo_carnet').innerHTML = '<option value="" selected>Error al cargar carnets</option>';
+    });
+    
     // ============================================
     // BÚSQUEDA SAIME Y VALIDACIÓN DE VISITANTE
     // ============================================
@@ -402,6 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function buscarVisitanteLocal(cedula) {
         const notif = document.getElementById('notifVisitante');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         
         try {
             // La validación de visitante dentro se maneja en el backend
@@ -409,11 +367,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // 2. Buscar en base de datos local
             notif.innerHTML = '<div class="alert alert-info"><i class="fas fa-spinner fa-spin me-2"></i>Buscando en registros anteriores...</div>';
             
-            const localResponse = await fetch('/api/buscar-visitante-cedula', {
+            const localResponse = await fetch('/proxy/buscar-visitante-cedula', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify({ cedula: cedula })
             });
@@ -491,7 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const notif = document.getElementById('notifVisitante');
         notif.innerHTML = '<div class="alert alert-info"><i class="fas fa-spinner fa-spin me-2"></i>Consultando datos en SAIME...</div>';
 
-        fetch(`{{ route('api.buscar-cedula') }}?cedula=${cedula}`)
+        fetch(`/proxy/buscar-cedula?cedula=${encodeURIComponent(cedula)}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -557,40 +516,42 @@ document.addEventListener('DOMContentLoaded', function() {
     const pisoSelect = document.getElementById('piso');
     const carnetSelect = document.getElementById('codigo_carnet');
 
-    pisoSelect.addEventListener('change', function() {
-        const piso = this.value;
-        
-        if (!piso) {
-            carnetSelect.innerHTML = '<option value="" disabled>Seleccione un piso primero</option>';
+    if (pisoSelect) {
+        pisoSelect.addEventListener('change', function() {
+            const piso = this.value;
+            
+            if (!piso) {
+                carnetSelect.innerHTML = '<option value="" disabled>Seleccione un piso primero</option>';
+                carnetSelect.disabled = true;
+                return;
+            }
+
+            carnetSelect.innerHTML = '<option value="" disabled>Cargando carnets...</option>';
             carnetSelect.disabled = true;
-            return;
-        }
 
-        carnetSelect.innerHTML = '<option value="" disabled>Cargando carnets...</option>';
-        carnetSelect.disabled = true;
-
-        fetch(`{{ route('api.carnets-por-piso') }}?piso=${encodeURIComponent(piso)}`)
-            .then(response => response.json())
-            .then(data => {
-                carnetSelect.innerHTML = '<option value="" disabled>Seleccione un carnet (opcional)</option>';
-                
-                if (data.success && data.data.length > 0) {
-                    data.data.forEach(carnet => {
-                        const option = document.createElement('option');
-                        option.value = carnet.id;
-                        option.textContent = `Carnet ${carnet.id} - Piso ${carnet.piso_asociado}`;
-                        carnetSelect.appendChild(option);
-                    });
-                    carnetSelect.disabled = false;
-                } else {
-                    carnetSelect.innerHTML = '<option value="" disabled>No hay carnets disponibles para este piso</option>';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                carnetSelect.innerHTML = '<option value="" disabled>Error al cargar carnets</option>';
-            });
-    });
+            fetch(`/api/carnets-disponibles?piso=${encodeURIComponent(piso)}`)
+                .then(response => response.json())
+                .then(data => {
+                    carnetSelect.innerHTML = '<option value="" disabled>Seleccione un carnet (opcional)</option>';
+                    
+                    if (data.success && data.data.length > 0) {
+                        data.data.forEach(carnet => {
+                            const option = document.createElement('option');
+                            option.value = carnet.id;
+                            option.textContent = `Carnet ${carnet.id} - Piso ${carnet.piso_asociado}`;
+                            carnetSelect.appendChild(option);
+                        });
+                        carnetSelect.disabled = false;
+                    } else {
+                        carnetSelect.innerHTML = '<option value="" disabled>No hay carnets disponibles para este piso</option>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    carnetSelect.innerHTML = '<option value="" disabled>Error al cargar carnets</option>';
+                });
+        });
+    }
 
     // Gestión de equipos
     let equiposCount = 0;
@@ -740,28 +701,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (segundoApellido && !/^[A-Za-záéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(segundoApellido)) {
                 errores.push('El segundo apellido debe contener solo letras');
             }
-            
-            // Validaciones de vehículo
-            const checkboxVehiculoHidden = document.getElementById('ingresa_con_vehiculo_hidden');
-            const vehiculoActivo = (checkboxVehiculoHidden && checkboxVehiculoHidden.value == '1');
-            
-            if (vehiculoActivo) {
-                if (placaInput && !placaInput.value.trim()) {
-                    errores.push('La placa del vehículo es obligatoria');
-                }
-                if (tipoInput && !tipoInput.value.trim()) {
-                    errores.push('El tipo de vehículo es obligatorio');
-                }
-                if (colorInput && !colorInput.value.trim()) {
-                    errores.push('El color del vehículo es obligatorio');
-                }
-                if (marcaInput && !marcaInput.value.trim()) {
-                    errores.push('La marca del vehículo es obligatoria');
-                }
-                if (modeloInput && !modeloInput.value.trim()) {
-                    errores.push('El modelo del vehículo es obligatorio');
-                }
-            }
+
             
             // Si hay errores, mostrar mensajes y detener
             if (errores.length > 0) {

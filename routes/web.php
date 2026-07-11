@@ -184,9 +184,26 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/visitantes', [VisitanteController::class, 'store'])->name('visitantes.store');
         Route::post('/visitantes/{visitante}/checkout', [VisitanteController::class, 'checkout'])->name('visitantes.checkout');
 
-        Route::get('/api/buscar-cedula', [ApiController::class, 'buscarCedula'])->name('api.buscar-cedula');
-        Route::post('/api/buscar-visitante-cedula', [VisitanteController::class, 'buscarPorCedula'])->name('api.buscar-visitante-cedula');
-        Route::get('/api/carnets-por-piso', [VisitanteController::class, 'getCarnetsByPiso'])->name('api.carnets-por-piso');
+        Route::get('/proxy/buscar-cedula', [ApiController::class, 'buscarCedula'])->name('api.buscar-cedula');
+        Route::post('/proxy/buscar-visitante-cedula', [VisitanteController::class, 'buscarPorCedula'])->name('api.buscar-visitante-cedula');
+        Route::get('/proxy/carnets-disponibles', [VisitanteController::class, 'getCarnetsDisponibles'])->name('api.carnets-disponibles');
     });
+
+    // Dummy routes to prevent 500 View exceptions from missing routes in layouts
+    Route::get('/rrhh/dashboard', function() { return redirect()->route('recepcion.dashboard'); })->name('rrhh.dashboard');
+    Route::get('/rrhh/usuarios/create', function() { return redirect()->route('recepcion.dashboard'); })->name('rrhh.usuarios.create');
+    Route::get('/rrhh/carnets', function() { return redirect()->route('recepcion.dashboard'); })->name('rrhh.carnets.index');
+    Route::get('/rotacion', function() { return redirect()->route('recepcion.dashboard'); })->name('rotacion.index');
+    Route::get('/rotacion/dashboard', function() { return redirect()->route('recepcion.dashboard'); })->name('rotacion.dashboard');
+    Route::get('/impresiones-reversa', function() { return redirect()->route('recepcion.dashboard'); })->name('impresiones_reversa.dashboard');
+    Route::get('/vehiculos/registro', function() { return redirect()->route('recepcion.dashboard'); })->name('vehiculos.registro');
+    Route::get('/vehiculos/accesos', function() { return redirect()->route('recepcion.dashboard'); })->name('vehiculos.accesos');
+    Route::get('/vehiculos/accesos-entes', function() { return redirect()->route('recepcion.dashboard'); })->name('vehiculos.accesos_entes');
+    Route::get('/admin/roles', function() { return redirect()->route('recepcion.dashboard'); })->name('admin.roles.index');
+    Route::get('/admin/logos', function() { return redirect()->route('recepcion.dashboard'); })->name('admin.instituciones.logos.index');
+    Route::get('/admin/carnets/empleados', function() { return redirect()->route('recepcion.dashboard'); })->name('admin.carnets.empleados.index');
+    Route::get('/admin/puestos', function() { return redirect()->route('recepcion.dashboard'); })->name('admin.puestos.index');
+    Route::get('/admin/cupos', function() { return redirect()->route('recepcion.dashboard'); })->name('admin.cupos.index');
+    Route::get('/admin/carnets/create', function() { return redirect()->route('recepcion.dashboard'); })->name('admin.carnets.create');
 
 });

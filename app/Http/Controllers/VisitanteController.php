@@ -61,14 +61,43 @@ class VisitanteController extends Controller
 
     public function searchEmployee(Request $request)
     {
-        $response = Http::withToken($this->token())
-            ->get($this->api() . '/api/visitantes/buscar-empleado', $request->only(['q', 'search']));
-        return response()->json($response->json(), $response->status());
+        $token = $this->token();
+        
+        if (empty($token)) {
+            return response()->json([
+                'backend_status' => 401,
+                'backend_body' => '{"message":"Token no encontrado en la sesion del frontend."}',
+                'frontend_error' => true,
+                'error_detail' => 'El token Sanctum no está en la sesión. ¿Se borró al regenerar la sesión?'
+            ]);
+        }
+
+        $backendUrl = $this->api() . '/api/visitantes/buscar-empleado-backend';
+        $params = $request->only(['q', 'search']);
+        $params['_t'] = time(); // CACHE BUSTER
+        
+        $response = Http::withoutRedirecting()->withToken($token)->acceptJson()
+            ->get($backendUrl, $params);
+
+        if ($response->successful()) {
+            return response()->json($response->json());
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Error al buscar empleado.',
+            'debug' => [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]
+        ], $response->status());
     }
 
     public function buscarPorCedula(Request $request)
     {
         $response = Http::withToken($this->token())
+            ->acceptJson()
+            ->withoutRedirecting()
             ->post($this->api() . '/api/visitantes/buscar-cedula', $request->only(['cedula', 'origen']));
         return response()->json($response->json(), $response->status());
     }
@@ -76,6 +105,8 @@ class VisitanteController extends Controller
     public function getVisitanteDetalle($id)
     {
         $response = Http::withToken($this->token())
+            ->acceptJson()
+            ->withoutRedirecting()
             ->get($this->api() . "/api/visitantes/detalle/{$id}");
         return response()->json($response->json(), $response->status());
     }
@@ -83,7 +114,18 @@ class VisitanteController extends Controller
     public function getCarnetsByPiso(Request $request)
     {
         $response = Http::withToken($this->token())
+            ->acceptJson()
+            ->withoutRedirecting()
             ->get($this->api() . '/api/carnets/por-piso', $request->only(['piso']));
+        return response()->json($response->json(), $response->status());
+    }
+
+    public function getCarnetsDisponibles(Request $request)
+    {
+        $response = Http::withToken($this->token())
+            ->acceptJson()
+            ->withoutRedirecting()
+            ->get($this->api() . '/api/carnets/disponibles');
         return response()->json($response->json(), $response->status());
     }
 

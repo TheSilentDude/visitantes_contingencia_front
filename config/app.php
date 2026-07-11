@@ -183,7 +183,6 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-        App\Providers\RecaptchaServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ],
 

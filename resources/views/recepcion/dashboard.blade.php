@@ -105,20 +105,7 @@
                         <input type="date" class="form-control" id="filtro_fecha" name="fecha" 
                                value="{{ old('fecha', request('fecha', date('Y-m-d'))) }}">
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="filtro_piso" class="form-label">Piso</label>
-                        <select class="form-control" id="filtro_piso" name="piso">
-                            <option value="">Todos los pisos</option>
-                            @php
-                                $pisos = ["PB","MZ1","MZ2", "MZ3","PB-JC","MZ1-JC","MZ2-JC", "MZ3-JC","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"];
-                            @endphp
-                            @foreach($pisos as $piso)
-                                <option value="{{ $piso }}" {{ old('piso', request('piso')) == $piso ? 'selected' : '' }}>
-                                    Piso {{ $piso }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+
                     <div class="col-md-3 mb-3">
                         <label for="filtro_estado" class="form-label">Estado</label>
                         <select class="form-control" id="filtro_estado" name="estado">
@@ -164,7 +151,7 @@
                             <tr>
                                 <th>Cédula</th>
                                 <th>Nombre</th>
-                                <th>Destino</th>
+                                <th>Institución de Origen</th>
                                 <th>Estado</th>
                                 <th>Entrada</th>
                                 <th>Salida</th>
@@ -190,8 +177,11 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="badge badge-info">Piso {{ $visitante->piso }}</span>
-                                    <br><small>{{ $visitante->departamento }}</small>
+                                    @if($visitante->institucion_de_origen)
+                                        <span class="badge badge-info">{{ $visitante->institucion_de_origen }}</span>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
                                 </td>
                                 <td>
                                     @if($visitante->estado_actual == 'DENTRO')
@@ -332,7 +322,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="searchEmployeeModalLabel">
-                        <i class="fas fa-search me-2"></i>  Buscar Empleado a Visitar
+                        <i class="fas fa-search me-2"></i> Buscar Miembro de Comite
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -486,9 +476,23 @@ document.addEventListener('DOMContentLoaded', function() {
         searchLoading.style.display = 'block';
         
         searchTimeout = setTimeout(() => {
-            fetch(`{{ route('visitantes.searchEmployee') }}?q=${encodeURIComponent(query)}`)
-                .then(response => response.json())
+            const url = `{{ route('visitantes.searchEmployee') }}?q=${encodeURIComponent(query)}`;
+            console.log('--- EMPLOYEE SEARCH DEBUG ---');
+            console.log('Fetching:', url);
+            
+            fetch(url)
+                .then(async response => {
+                    const text = await response.text();
+                    console.log('Frontend response status:', response.status);
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        console.error('Failed to parse frontend JSON:', text);
+                        throw e;
+                    }
+                })
                 .then(data => {
+                    console.log('Data from frontend controller:', data);
                     searchLoading.style.display = 'none';
                     
                     if (data.ok && data.data && data.data.length > 0) {

@@ -14,7 +14,7 @@ class CtsaludSearchController extends Controller
     public function getEmployeeData(Request $request)
     {
         $response = Http::withToken($this->token())
-            ->get($this->api() . '/api/visitantes/datos-empleado', $request->only(['cedula', 'id']));
+            ->get($this->api() . '/api/visitantes/datos-empleado-backend', $request->only(['cedula', 'id']));
         
         \Illuminate\Support\Facades\Log::info("CTSalud response: " . $response->status() . " - " . $response->body());
 
