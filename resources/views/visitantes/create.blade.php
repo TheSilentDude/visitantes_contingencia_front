@@ -107,16 +107,16 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <label for="institucion_de_origen" class="form-label">Institución de Origen</label>
                                 <input type="text" class="form-control" id="institucion_de_origen" name="institucion_de_origen" 
                                        value="{{ old('institucion_de_origen') }}" placeholder="Ej: CANTV (Opcional)">
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="codigo_carnet" class="form-label">Código de Carnet</label>
-                                <select class="form-control" id="codigo_carnet" name="codigo_carnet">
-                                    <option value="" disabled selected>Cargando carnets disponibles...</option>
-                                </select>
+                            
+                            <!-- Carnet oculto pasando valor vacío por defecto -->
+                            <input type="hidden" name="codigo_carnet" value="">
+                            <div class="d-none">
+                                <select id="codigo_carnet"></select>
                             </div>
                         </div>
                         <div class="row">
@@ -446,10 +446,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function buscarEnSaime(cedula) {
-        // Mostrar loading
-        const notif = document.getElementById('notifVisitante');
-        notif.innerHTML = '<div class="alert alert-info"><i class="fas fa-spinner fa-spin me-2"></i>Consultando datos en SAIME...</div>';
-
+        // Búsqueda silenciosa en SAIME
         fetch(`/proxy/buscar-cedula?cedula=${encodeURIComponent(cedula)}&_t=${Date.now()}`, {
             credentials: 'same-origin',
             headers: {
@@ -464,33 +461,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                console.log('SAIME Response:', data);
-                
                 if (data.success && data.data) {
-                    // Llenar campos con datos de SAIME
+                    // Llenar campos con datos de SAIME de forma silenciosa
                     document.getElementById('primerNombre').value = data.data.primer_nombre || '';
                     document.getElementById('segundoNombre').value = data.data.segundo_nombre || '';
                     document.getElementById('primerApellido').value = data.data.primer_apellido || '';
                     document.getElementById('segundoApellido').value = data.data.segundo_apellido || '';
-                    
-                    const source = data.source === 'local' ? 'base de datos local' : 'SAIME';
-                    notif.innerHTML = `<div class="alert alert-success"><i class="fas fa-check me-2"></i>Datos encontrados en ${source}</div>`;
-                } else {
-                    const message = data.message || 'No se encontraron datos en SAIME';
-                    notif.innerHTML = `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle me-2"></i>${message}. Complete manualmente.</div>`;
                 }
-                
-                // Limpiar notificación después de 5 segundos
-                setTimeout(() => {
-                    notif.innerHTML = '';
-                }, 5000);
             })
             .catch(error => {
-                console.error('Error SAIME:', error);
-                notif.innerHTML = `<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>Error al consultar SAIME: ${error.message}. Complete manualmente.</div>`;
-                setTimeout(() => {
-                    notif.innerHTML = '';
-                }, 5000);
+                console.error('Error SAIME silenciado:', error);
             });
     }
 

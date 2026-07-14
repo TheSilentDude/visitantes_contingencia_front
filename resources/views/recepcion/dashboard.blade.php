@@ -109,8 +109,8 @@
                     <div class="col-md-3 mb-3">
                         <label for="filtro_estado" class="form-label">Estado</label>
                         <select class="form-control" id="filtro_estado" name="estado">
-                            <option value="activos" {{ old('estado', request('estado', 'activos')) == 'activos' ? 'selected' : '' }}>Solo Activos</option>
-                            <option value="todos" {{ old('estado', request('estado')) == 'todos' ? 'selected' : '' }}>Todos (Entradas y Salidas)</option>
+                            <option value="activos" {{ old('estado', request('estado', 'todos')) == 'activos' ? 'selected' : '' }}>Solo Activos</option>
+                            <option value="todos" {{ old('estado', request('estado', 'todos')) == 'todos' ? 'selected' : '' }}>Todos (Entradas y Salidas)</option>
                         </select>
                     </div>
                     <div class="col-md-3 mb-3">
